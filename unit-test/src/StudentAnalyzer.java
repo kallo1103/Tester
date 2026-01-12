@@ -38,7 +38,7 @@ public class StudentAnalyzer {
         if (scores == null || scores.isEmpty()) {
             return 0.0;
         }
-        double sum = 0.0;
+        double sum = 0.0; 
         int validCount = 0;
         for (Double score : scores) {
             if (score != null && score >= 0 && score <= 10) {

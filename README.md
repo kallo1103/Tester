@@ -1,42 +1,84 @@
+# Portfolio: Software Testing & QA Practice
 
-Lê Hoài Nam BCS230059
+**Họ và tên:** Lê Hoài Nam
+**Mã sinh viên:** BCS230059
 
+---
+
+## 📑 Mục lục
+
+1. [Chương 1: Thử thách thiết kế UI/UX (Can't Unsee)](#chương-1-thử-thách-thiết-kế-uiux-cant-unsee)
+2. [Chương 2: Kiểm thử đơn vị với JUnit (Student Analyzer)](#chương-2-kiểm-thử-đơn-vị-với-junit-student-analyzer)
+
+---
+
+## Chương 1: Thử thách thiết kế UI/UX (Can't Unsee)
+
+### 1.1 Tổng quan
+
+Phần này ghi lại kết quả thực hành đánh giá giao diện người dùng thông qua trò chơi "Can't Unsee". Mục tiêu là rèn luyện mắt quan sát các lỗi thiết kế nhỏ và sự không nhất quán trong UI.
+
+### 1.2 Kết quả đạt được
 
 ![Kết quả Can't Unsee](Screenshot%202026-01-05%20at%202.31.14%E2%80%AFPM.png)
 
-**Mô tả chi tiết ảnh:**
-- **Nội dung:** Màn hình kết quả cuối cùng sau khi hoàn thành thử thách.
-- **Điểm số (Score):** 7530
-- **Xếp hạng (Rank):** **Platinum** (Top 5% người chơi) - Chứng tỏ khả năng quan sát chi tiết tốt.
-- **Thời gian hoàn thành:** 00:10:04
+| Chỉ số | Chi tiết | Đánh giá |
+| :--- | :--- | :--- |
+| **Điểm số** | **7530** | Rất cao |
+| **Xếp hạng** | **Platinum** | Top 5% người chơi |
+| **Thời gian** | 00:10:04 | Tốc độ xử lý nhanh |
 
+**Nhận xét:** Kết quả mức Platinum chứng tỏ khả năng nhận diện các chi tiết thiết kế UI tinh tế là rất tốt.
 
-# Bài tập thực hành kiểm thử với JUnit
-## Chủ đề: Phân tích dữ liệu điểm số học sinh
+---
 
-### 1. Giới thiệu
-Chương trình Java `StudentAnalyzer` cung cấp các chức năng:
-- `countExcellentStudents`: Đếm số học sinh giỏi (điểm >= 8.0).
-- `calculateValidAverage`: Tính điểm trung bình của các điểm hợp lệ (0-10).
+## Chương 2: Kiểm thử đơn vị với JUnit (Student Analyzer)
 
-### 2. Cấu trúc thư mục
-- `unit-test/src/StudentAnalyzer.java`: Mã nguồn chính.
-- `unit-test/test/StudentAnalyzerTest.java`: Mã nguồn kiểm thử (JUnit 5).
+### 2.1 Giới thiệu bài toán
 
-### 3. Hướng dẫn chạy kiểm thử
-Để chạy các kiểm thử này, bạn cần có thư viện JUnit 5.
+Xây dựng và kiểm thử module `StudentAnalyzer` để xử lý dữ liệu điểm số học sinh. Hệ thống cần đảm bảo tính đúng đắn khi xử lý các dữ liệu đầu vào khác nhau, bao gồm cả dữ liệu lỗi.
 
-Nếu sử dụng IDE (IntelliJ, Eclipse, VS Code):
-- Mở thư mục dự án.
-- Đảm bảo thư viện JUnit 5 đã được thêm vào classpath.
-- Chuột phải vào file `StudentAnalyzerTest.java` và chọn "Run".
+**Chức năng chính:**
 
-### 4. Các Test Case đã thực hiện
-- **countExcellentStudents**:
-  - Danh sách hỗn hợp (hợp lệ/không hợp lệ).
-  - Danh sách toàn điểm giỏi.
-  - Danh sách rỗng/null.
-- **calculateValidAverage**:
-  - Danh sách hỗn hợp.
-  - Danh sách toàn điểm hợp lệ.
-  - Danh sách rỗng/null (trả về 0).
+1. **`countExcellentStudents(List<Double> scores)`**: Đếm số lượng học sinh đạt loại Giỏi (điểm từ 8.0 trở lên).
+2. **`calculateValidAverage(List<Double> scores)`**: Tính điểm trung bình cộng, tự động loại bỏ các điểm số không hợp lệ (điểm âm hoặc > 10).
+
+### 2.2 Cấu trúc dự án
+
+```text
+Tester/
+├── unit-test/
+│   ├── src/
+│   │   └── StudentAnalyzer.java      # Mã nguồn logic xử lý
+│   └── test/
+│       └── StudentAnalyzerTest.java  # Kịch bản kiểm thử (JUnit 5)
+```
+
+### 2.3 Chiến lược kiểm thử (Test Strategy)
+
+Các kịch bản kiểm thử (Test Cases) được thiết kế bao phủ các trường hợp:
+
+**A. Phương thức `countExcellentStudents`**
+
+* ✅ **Normal Case:** Danh sách chứa điểm giỏi, khá, trung bình.
+* ✅ **Boundary Case:** Điểm ngay tại ngưỡng 8.0, 7.9, 10.0, 0.0.
+* ✅ **Review Error/Invalid:** Điểm âm, điểm > 10, danh sách chứa `null`.
+* ✅ **Empty/Null:** Danh sách rỗng hoặc đối tượng list là null.
+
+**B. Phương thức `calculateValidAverage`**
+
+* ✅ **Calculation:** Tính toán chính xác trung bình cộng các số hợp lệ.
+* ✅ **Filter Logic:** Bỏ qua điểm sai, chỉ tính điểm đúng.
+* ✅ **Edge Case:** Danh sách chỉ toàn điểm sai (trả về 0.0).
+
+### 2.4 Hướng dẫn chạy kiểm thử
+
+**Yêu cầu:** JDK 8+ và thư viện JUnit 5.
+
+**Các bước thực hiện:**
+
+1. Mở dự án bằng IDE (IntelliJ IDEA, Eclipse, hoặc VS Code).
+2. Đảm bảo thư viện **JUnit 5.8.1** (hoặc mới hơn) đã được thêm vào classpath.
+3. Mở file `unit-test/test/StudentAnalyzerTest.java`.
+4. Nhấp chuột phải và chọn **Run 'StudentAnalyzerTest'**.
+5. Kiểm tra kết quả trên thanh trạng thái (Green Bar = All Passed).
