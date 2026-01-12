@@ -1,4 +1,4 @@
-# Portfolio: Software Testing & QA Practice
+## KIỂM THỬ PHẦN MỀM
 
 **Họ và tên:** Lê Hoài Nam
 **Mã sinh viên:** BCS230059
