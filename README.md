@@ -10,6 +10,7 @@
 1. [Chương 1: Thử thách thiết kế UI/UX (Can't Unsee)](#chương-1-thử-thách-thiết-kế-uiux-cant-unsee)
 2. [Chương 2: Kiểm thử đơn vị với JUnit (Student Analyzer)](#chương-2-kiểm-thử-đơn-vị-với-junit-student-analyzer)
 3. [Chương 3: Kiểm thử tự động End-to-End với Cypress](#chương-3-kiểm-thử-tự-động-end-to-end-với-cypress)
+4. [Chương 4: Kiểm thử hiệu năng với JMeter](#chương-4-kiểm-thử-hiệu-năng-với-jmeter)
 
 ---
 
@@ -158,3 +159,42 @@ Dự án bao gồm 3 tệp kiểm thử chính trong thư mục `cypress/e2e/`:
     ```bash
     npx cypress open
     ```
+
+---
+
+## Chương 4: Kiểm thử hiệu năng với JMeter
+
+### 4.1 Giới thiệu
+
+Thực hiện kiểm thử hiệu năng cho website **VnExpress** (<https://vnexpress.net>) sử dụng **Apache JMeter**. Mục tiêu là đánh giá khả năng chịu tải và độ ổn định của hệ thống với các kịch bản người dùng giả lập.
+
+### 4.2 Cấu trúc thư mục
+
+```text
+Tester/
+├── jmeter/
+│   ├── performance_test.jmx      # Kịch bản kiểm thử (Test Plan)
+│   ├── results.csv               # Kết quả chi tiết (Raw Data)
+│   └── README.md                 # Báo cáo chi tiết
+```
+
+### 4.3 Kịch bản kiểm thử (Test Scenarios)
+
+Đã thiết kế và thực thi 3 kịch bản khác nhau:
+
+1. **Thread Group 1 (Basic Load):** 10 người dùng truy cập trang chủ.
+2. **Thread Group 2 (Heavy Load):** 50 người dùng truy cập dồn dập trong 30s.
+3. **Thread Group 3 (Custom/Stress):** 20 người dùng truy cập liên tục trong 60s các chuyên mục con.
+
+### 4.4 Kết quả thực nghiệm
+
+Dựa trên kết quả chạy thực tế (CLI mode):
+
+* **Tổng số yêu cầu (Samples):** > 5,000 requests
+* **Thời gian phản hồi trung bình (Average Response Time):** ~195 ms
+* **Thông lượng (Throughput):** ~98 requests/second
+* **Tỷ lệ lỗi (Error Rate):** 0.00%
+
+> **Kết luận:** Hệ thống hoạt động rất ổn định dưới mức tải giả lập (tối đa 50 users đồng thời), phản hồi nhanh và không phát sinh lỗi HTTP.
+
+Xem báo cáo chi tiết tại: [jmeter/README.md](./jmeter/README.md)
