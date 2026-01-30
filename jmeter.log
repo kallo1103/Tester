@@ -293,3 +293,5 @@
 2026-01-19 23:15:04,506 INFO o.a.j.t.JMeterThread: Thread finished: Thread Group 3 - Custom 3-3
 2026-01-19 23:15:04,514 INFO o.a.j.t.JMeterThread: Stopping because end time detected by thread: Thread Group 3 - Custom 3-16
 2026-01-19 23:15:04,515 INFO o.a.j.t.JMeterThread: Thread finished: Thread Group 3 - Custom 3-16
+2026-01-19 23:16:30,902 INFO o.a.j.r.ResultCollector: Shutdown hook started
+2026-01-19 23:16:30,903 INFO o.a.j.r.ResultCollector: Shutdown hook ended
