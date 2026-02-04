@@ -8,6 +8,39 @@ Bảng quyết định giúp xác định tất cả các kết hợp điều ki
 
 ## 1. Bảng quyết định - Đăng ký (Registration)
 
+### Biểu đồ luồng quyết định
+
+```mermaid
+flowchart TD
+    Start([Bắt đầu Đăng ký]) --> C1{C1: Email<br/>hợp lệ?}
+    
+    C1 -->|Không| A5[/"❌ Lỗi: Email không<br/>đúng định dạng"/]
+    C1 -->|Có| C2{C2: Email<br/>chưa tồn tại?}
+    
+    C2 -->|Không| A4[/"❌ Lỗi: Email đã<br/>được sử dụng"/]
+    C2 -->|Có| C3{C3: Mật khẩu<br/>>= 8 ký tự?}
+    
+    C3 -->|Không| A3[/"❌ Lỗi: Mật khẩu<br/>tối thiểu 8 ký tự"/]
+    C3 -->|Có| C4{C4: Xác nhận<br/>mật khẩu khớp?}
+    
+    C4 -->|Không| A2[/"❌ Lỗi: Mật khẩu<br/>không khớp"/]
+    C4 -->|Có| A1[/"✅ Đăng ký<br/>thành công"/]
+    
+    A1 --> End([Kết thúc])
+    A2 --> End
+    A3 --> End
+    A4 --> End
+    A5 --> End
+
+    style Start fill:#4CAF50,color:#fff
+    style End fill:#9E9E9E,color:#fff
+    style A1 fill:#4CAF50,color:#fff
+    style A2 fill:#f44336,color:#fff
+    style A3 fill:#f44336,color:#fff
+    style A4 fill:#f44336,color:#fff
+    style A5 fill:#f44336,color:#fff
+```
+
 ### Điều kiện đầu vào
 
 | Điều kiện | Mô tả |
@@ -47,6 +80,37 @@ Bảng quyết định giúp xác định tất cả các kết hợp điều ki
 
 ## 2. Bảng quyết định - Đăng nhập (Login)
 
+### Biểu đồ luồng quyết định
+
+```mermaid
+flowchart TD
+    Start([Bắt đầu Đăng nhập]) --> C1{C1: Email<br/>đã nhập?}
+    
+    C1 -->|Không| A3[/"❌ Lỗi: Vui lòng<br/>nhập email"/]
+    C1 -->|Có| C2{C2: Mật khẩu<br/>đã nhập?}
+    
+    C2 -->|Không| A4[/"❌ Lỗi: Vui lòng<br/>nhập mật khẩu"/]
+    C2 -->|Có| C3{C3: Email<br/>tồn tại?}
+    
+    C3 -->|Không| A2[/"❌ Lỗi: Email/mật khẩu<br/>không đúng"/]
+    C3 -->|Có| C4{C4: Mật khẩu<br/>đúng?}
+    
+    C4 -->|Không| A2
+    C4 -->|Có| A1[/"✅ Đăng nhập<br/>thành công"/]
+    
+    A1 --> End([Kết thúc])
+    A2 --> End
+    A3 --> End
+    A4 --> End
+
+    style Start fill:#2196F3,color:#fff
+    style End fill:#9E9E9E,color:#fff
+    style A1 fill:#4CAF50,color:#fff
+    style A2 fill:#f44336,color:#fff
+    style A3 fill:#f44336,color:#fff
+    style A4 fill:#f44336,color:#fff
+```
+
 ### Điều kiện đầu vào
 
 | Điều kiện | Mô tả |
@@ -84,6 +148,29 @@ Bảng quyết định giúp xác định tất cả các kết hợp điều ki
 
 ## 3. Bảng quyết định - Quên mật khẩu (Forgot Password)
 
+### Biểu đồ luồng quyết định
+
+```mermaid
+flowchart TD
+    Start([Bắt đầu Quên MK]) --> C1{C1: Email<br/>hợp lệ?}
+    
+    C1 -->|Không| A2[/"❌ Lỗi: Email không<br/>đúng định dạng"/]
+    C1 -->|Có| C2{C2: Email<br/>tồn tại?}
+    
+    C2 -->|Không| A3[/"❌ Lỗi: Email không<br/>tồn tại trong hệ thống"/]
+    C2 -->|Có| A1[/"✅ Gửi email reset<br/>thành công"/]
+    
+    A1 --> End([Kết thúc])
+    A2 --> End
+    A3 --> End
+
+    style Start fill:#FF9800,color:#fff
+    style End fill:#9E9E9E,color:#fff
+    style A1 fill:#4CAF50,color:#fff
+    style A2 fill:#f44336,color:#fff
+    style A3 fill:#f44336,color:#fff
+```
+
 ### Điều kiện đầu vào
 
 | Điều kiện | Mô tả |
@@ -113,6 +200,39 @@ Bảng quyết định giúp xác định tất cả các kết hợp điều ki
 ---
 
 ## 4. Bảng quyết định - Security Testing
+
+### Biểu đồ luồng quyết định
+
+```mermaid
+flowchart TD
+    Start([Nhận Input]) --> Check{Input chứa<br/>mã độc?}
+    
+    Check -->|SQL Injection| S1[Sanitize SQL]
+    Check -->|XSS Script| S2[Escape HTML]
+    Check -->|Cả hai| S3[Sanitize All]
+    Check -->|Không| S4[Xử lý bình thường]
+    
+    S1 --> V1{Validate<br/>thành công?}
+    S2 --> V1
+    S3 --> V1
+    S4 --> A1[/"✅ Xử lý request<br/>thành công"/]
+    
+    V1 -->|Không| A2[/"❌ Hiển thị lỗi<br/>validation"/]
+    V1 -->|Có| A3[/"⚠️ Input được<br/>làm sạch"/]
+    
+    A1 --> End([Kết thúc])
+    A2 --> End
+    A3 --> End
+
+    style Start fill:#9C27B0,color:#fff
+    style End fill:#9E9E9E,color:#fff
+    style A1 fill:#4CAF50,color:#fff
+    style A2 fill:#f44336,color:#fff
+    style A3 fill:#FF9800,color:#fff
+    style S1 fill:#E3F2FD,color:#333
+    style S2 fill:#E3F2FD,color:#333
+    style S3 fill:#E3F2FD,color:#333
+```
 
 ### Điều kiện đầu vào
 
