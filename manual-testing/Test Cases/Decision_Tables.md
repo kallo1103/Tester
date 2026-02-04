@@ -8,6 +8,25 @@ Bảng quyết định giúp xác định tất cả các kết hợp điều ki
 
 ## 1. Bảng quyết định - Đăng ký (Registration)
 
+### Mô tả bài toán
+
+**Bối cảnh**: Hệ thống e-commerce cho phép người dùng mới tạo tài khoản để mua sắm trực tuyến.
+
+**Yêu cầu chức năng**:
+
+- Người dùng cung cấp email, mật khẩu và xác nhận mật khẩu
+- Hệ thống validate dữ liệu đầu vào và tạo tài khoản mới
+- Mỗi email chỉ được đăng ký một tài khoản duy nhất
+
+**Quy tắc nghiệp vụ**:
+
+1. Email phải đúng định dạng RFC 5322 (có `@` và domain hợp lệ)
+2. Email phải chưa tồn tại trong hệ thống
+3. Mật khẩu tối thiểu 8 ký tự
+4. Mật khẩu xác nhận phải khớp với mật khẩu
+
+**Mục tiêu kiểm thử**: Đảm bảo tất cả các kết hợp điều kiện đầu vào được xử lý đúng, hiển thị thông báo lỗi phù hợp cho từng trường hợp.
+
 ### Biểu đồ luồng quyết định
 
 ```mermaid
@@ -96,6 +115,25 @@ graph LR
 
 ## 2. Bảng quyết định - Đăng nhập (Login)
 
+### Mô tả bài toán
+
+**Bối cảnh**: Người dùng đã có tài khoản cần đăng nhập vào hệ thống để truy cập các tính năng cá nhân.
+
+**Yêu cầu chức năng**:
+
+- Người dùng cung cấp email và mật khẩu
+- Hệ thống xác thực thông tin và cấp quyền truy cập
+- Bảo mật: không tiết lộ thông tin nào về tài khoản trong thông báo lỗi
+
+**Quy tắc nghiệp vụ**:
+
+1. Cả email và mật khẩu đều bắt buộc nhập
+2. Email phải tồn tại trong hệ thống
+3. Mật khẩu phải khớp với mật khẩu đã lưu (sau khi hash)
+4. Thông báo lỗi chung "Email/mật khẩu không đúng" để tránh enumeration attack
+
+**Mục tiêu kiểm thử**: Đảm bảo cơ chế xác thực hoạt động chính xác, không cho phép truy cập trái phép, và thông báo lỗi không tiết lộ thông tin nhạy cảm.
+
 ### Biểu đồ luồng quyết định
 
 ```mermaid
@@ -181,6 +219,25 @@ graph LR
 
 ## 3. Bảng quyết định - Quên mật khẩu (Forgot Password)
 
+### Mô tả bài toán
+
+**Bối cảnh**: Người dùng quên mật khẩu và cần khôi phục quyền truy cập vào tài khoản.
+
+**Yêu cầu chức năng**:
+
+- Người dùng cung cấp email đã đăng ký
+- Hệ thống gửi link reset mật khẩu qua email
+- Chống abuse: giới hạn số lần yêu cầu reset
+
+**Quy tắc nghiệp vụ**:
+
+1. Email phải đúng định dạng hợp lệ
+2. Email phải tồn tại trong hệ thống
+3. Tối đa 5 lần yêu cầu reset trong 24 giờ (rate limiting)
+4. Link reset có thời hạn 1 giờ
+
+**Mục tiêu kiểm thử**: Đảm bảo chức năng reset mật khẩu hoạt động đúng, có cơ chế bảo vệ chống lạm dụng, và không tiết lộ thông tin về sự tồn tại của tài khoản.
+
 ### Biểu đồ luồng quyết định
 
 ```mermaid
@@ -257,6 +314,25 @@ graph LR
 ---
 
 ## 4. Bảng quyết định - Security Testing
+
+### Mô tả bài toán
+
+**Bối cảnh**: Hệ thống cần bảo vệ chống các cuộc tấn công injection thông qua dữ liệu đầu vào từ người dùng.
+
+**Yêu cầu chức năng**:
+
+- Tất cả input từ người dùng phải được kiểm tra và làm sạch
+- Ngăn chặn SQL Injection và Cross-Site Scripting (XSS)
+- Hiển thị lỗi validation thay vì lỗi hệ thống
+
+**Quy tắc nghiệp vụ**:
+
+1. Phát hiện và sanitize các SQL Injection patterns (`OR 1=1`, `DROP TABLE`, `--` comment)
+2. Phát hiện và escape các XSS scripts (`<script>`, `onerror`, `javascript:`)
+3. Không cho phép mã độc thực thi trong bất kỳ trường hợp nào
+4. Ghi log các attempt tấn công để monitoring
+
+**Mục tiêu kiểm thử**: Đảm bảo hệ thống không bị tấn công injection, xử lý an toàn tất cả các input nguy hiểm, và không gây crash hoặc tiết lộ thông tin nhạy cảm.
 
 ### Biểu đồ luồng quyết định
 
